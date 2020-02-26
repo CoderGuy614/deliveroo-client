@@ -1,38 +1,103 @@
-import React from 'react'
-import Nav from './Nav.js'
-import Basket from './Basket.js'
-import RestaurantMenu from './RestaurantMenu.js'
+import React from "react";
+import axios from "axios";
+import Nav from "./Nav.js";
+import Basket from "./Basket.js";
+import RestaurantMenu from "./RestaurantMenu.js";
 
 class Restaurant extends React.Component {
-	render() {
-		return (
-			<>
-      <Nav showFilters={false} />
-      <div id="restaurant">
-        <div>
-          <h1>Peloton</h1>
-          <div id="gallery">
-            <div className="photo" style={{backgroundImage: 'url("https://bit.ly/2RXsprv")'}} />
-            <div className="photo" style={{backgroundImage: 'url("https://bit.ly/2O622yD")'}} />
-            <div className="photo" style={{backgroundImage: 'url("https://bit.ly/38FaBbs")'}} />
-            <div className="photo" style={{backgroundImage: 'url("https://bit.ly/2RATsdq")'}} />
+  state = {
+    restaurant: {
+      categories: [],
+      price: 0,
+      likes: 0,
+      menu: {},
+      photos: [],
+      avg: 0
+    },
+
+    basketItems: []
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.addToBasket = this.addToBasket.bind(this);
+  }
+
+  addToBasket(item) {
+    let basketItems = this.state.basketItems;
+    basketItems.push(item);
+    this.setState({
+      basketItems
+    });
+  }
+
+  componentWillMount() {
+    axios
+      .get(
+        `${process.env.REACT_APP_API}/restaurants/${this.props.match.params.id}`
+      )
+      .then(res => {
+        this.setState({
+          restaurant: res.data
+        });
+      })
+      .catch(err => {
+        console.log({ err });
+      });
+  }
+
+  rounded = num => {
+    return num.toFixed(2);
+  };
+
+  render() {
+    return (
+      <>
+        <Nav showFilters={false} />
+        <div id="restaurant">
+          <div>
+            <h1>{this.state.restaurant.name}</h1>
+            <div id="gallery">
+              {this.state.restaurant.photos.map((image, i) => (
+                <div
+                  className="photo"
+                  style={{ backgroundImage: `url(${image})` }}
+                  key={i}
+                />
+              ))}
+            </div>
+            <ul className="categories">
+              {this.state.restaurant.categories.map((category, i) => (
+                <li style={{ background: `${category.color}` }}>
+                  {category.name}
+                </li>
+              ))}
+            </ul>
+            <div className="info">
+              <span className="price">
+                <i className="fas fa-dollar-sign" />
+                {this.state.restaurant.avg.toFixed(2)}
+              </span>
+              <span className="likes">
+                <i className="fas fa-thumbs-up" />
+                {this.state.restaurant.likes}
+              </span>
+              <span className="time">
+                <i className="fas fa-clock" />
+                {this.state.restaurant.deliveryTime} min
+              </span>
+            </div>
           </div>
-          <ul className="categories">
-            <li style={{background: '#40C9A2'}}>Vegetarian</li>
-            <li style={{background: '#F2B430'}}>Breakfast</li>
-          </ul>
-          <div className="info">
-            <span className="price"><i className="fas fa-dollar-sign" />20</span>
-            <span className="likes"><i className="fas fa-thumbs-up" />347</span>
-            <span className="time"><i className="fas fa-clock" />20 min</span>
-          </div>
+          <RestaurantMenu
+            menu={this.state.restaurant.menu}
+            addToBasket={this.addToBasket}
+          />
+          <Basket items={this.state.basketItems} />
         </div>
-        <RestaurantMenu />
-        <Basket />
-      </div>
       </>
-		)
-	}
+    );
+  }
 }
 
-export default Restaurant
+export default Restaurant;
