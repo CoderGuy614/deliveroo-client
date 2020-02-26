@@ -12,10 +12,8 @@ class Nav extends React.Component {
     let a = this.props.restaurants.filter(el =>
       el.name.toUpperCase().includes(e.target.value.toUpperCase())
     );
-
     this.props.cb(a);
     console.log(a, this.props.restaurants);
-
     //display only the cards with that
   };
 
@@ -55,6 +53,30 @@ class Nav extends React.Component {
       this.props.cb(a);
     });
   };
+  sortBy = e => {
+    let sortBy = e.target.value;
+    let originalSort = this.props.restaurants;
+    if (sortBy === "price") {
+      let sort = originalSort.sort((a, b) => {
+        return a.avg - b.avg;
+      });
+      console.log(sort, originalSort);
+      this.props.cb(sort);
+    } else if (sortBy === "delivery") {
+      let sort = originalSort.sort((a, b) => {
+        return a.deliveryTime - b.deliveryTime;
+      });
+      this.props.cb(sort);
+    } else if (sortBy === "likes") {
+      let sort = originalSort.sort((a, b) => {
+        return b.likes - a.likes;
+      });
+      this.props.cb(sort);
+    } else {
+      this.props.cb(originalSort);
+    }
+  };
+
   render() {
     return (
       <nav>
@@ -92,11 +114,11 @@ class Nav extends React.Component {
 
         {this.props.showFilters ? (
           <>
-            <select>
-              <option value>Sort by:</option>
-              <option value>Price</option>
-              <option value>Delivery Time</option>
-              <option value>Likes</option>
+            <select onChange={this.sortBy}>
+              <option value="all">Sort by:</option>
+              <option value="price">Price</option>
+              <option value="delivery">Delivery Time</option>
+              <option value="likes">Likes</option>
             </select>
             <input type="text" placeholder="Search..." onChange={this.find} />
           </>
