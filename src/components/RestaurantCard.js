@@ -9,7 +9,7 @@ class RestaurantCard extends React.Component {
       <Link to={`/restaurant/${restaurant._id}`} className="restaurant">
         <div
           className="photo"
-          style={{ backgroundImage: 'url("https://bit.ly/2u17mMF")' }}
+          style={{ backgroundImage: `url(${restaurant.photos[0]})` }}
         />
         <h3>{restaurant.name}</h3>
         {
@@ -23,15 +23,15 @@ class RestaurantCard extends React.Component {
             <div className="info">
               <span className="price">
                 <i className="fas fa-dollar-sign" />
-                17
+                {restaurant.avg.toFixed(2)}
               </span>
               <span className="likes">
                 <i className="fas fa-thumbs-up" />
-                201
+                {restaurant.likes}
               </span>
               <span className="time">
                 <i className="fas fa-clock" />
-                20 min
+                {restaurant.deliveryTime} min
               </span>
             </div>
           </>
