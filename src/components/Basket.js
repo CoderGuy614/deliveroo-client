@@ -19,7 +19,7 @@ class Basket extends React.Component {
       <div id="basket">
         <h2>Your Basket</h2>
         <ul>
-          {this.state.basketItems.map((item, i) => {
+          {/*this.state.basketItems.map((item, i) => {
             return (
               <li>
                 <i className="fas fa-minus" />
@@ -27,7 +27,7 @@ class Basket extends React.Component {
                 <span className="price">{item.price}</span>
               </li>
             );
-          })}
+          })*/}
         </ul>
 
         <div id="total">
