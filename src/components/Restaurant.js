@@ -1,9 +1,13 @@
 import React from 'react'
+import Nav from './Nav.js'
+import Basket from './Basket.js'
+import RestaurantMenu from './RestaurantMenu.js'
 
 class Restaurant extends React.Component {
 	render() {
 		return (
 			<>
+      <Nav showFilters={false} />
       <div id="restaurant">
         <div>
           <h1>Peloton</h1>
@@ -23,66 +27,8 @@ class Restaurant extends React.Component {
             <span className="time"><i className="fas fa-clock" />20 min</span>
           </div>
         </div>
-        <div id="menu">
-          <h2>Menu</h2>
-          <h3>Smoothie Bowls</h3>
-          <ul>
-            <li>
-              <span className="name">Green Godess</span>
-              <span className="price">$5 <i className="fas fa-plus" /></span>
-            </li>
-            <li>
-              <span className="name">Tutti Frutti</span>
-              <span className="price">$10 <i className="fas fa-plus" /></span>
-            </li>
-            <li>
-              <span className="name">Dragonball</span>
-              <span className="price">$10 <i className="fas fa-plus" /></span>
-            </li>
-          </ul>
-          <h3>Veggie Bowls</h3>
-          <ul>
-            <li>
-              <span className="name">Avocado Madness</span>
-              <span className="price">$12 <i className="fas fa-plus" /></span>
-            </li>
-            <li>
-              <span className="name">Burrito Bandito</span>
-              <span className="price">$15 <i className="fas fa-plus" /></span>
-            </li>
-          </ul>
-          <h3>Drinks</h3>
-          <ul>
-            <li>
-              <span className="name">Pure Coconut</span>
-              <span className="price">$4 <i className="fas fa-plus" /></span>
-            </li>
-            <li>
-              <span className="name">Choco Lava</span>
-              <span className="price">$8 <i className="fas fa-plus" /></span>
-            </li>
-          </ul>
-        </div>
-        <div id="basket">
-          <h2>Your Basket</h2>
-          <ul>
-            <li>
-              <i className="fas fa-minus" />
-              <span className="name">Avocado Madness</span>
-              <span className="price">$12</span>
-            </li>
-            <li>
-              <i className="fas fa-minus" />
-              <span className="name">Tutti Frutti</span>
-              <span className="price">$10</span>
-            </li>
-          </ul>
-          <div id="total">
-            <span>Total</span>
-            <span className="price">$22</span>
-            <button>Place Order</button>
-          </div>
-        </div>
+        <RestaurantMenu />
+        <Basket />
       </div>
       </>
 		)

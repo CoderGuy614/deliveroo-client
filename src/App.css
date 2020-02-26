@@ -39,7 +39,7 @@ nav li {
 	margin-right: 2px;
 }
 
-nav a {
+nav a.categoryTag {
 	padding: 10px 10px 10px;
 	box-sizing: border-box;
 	text-decoration: none;
