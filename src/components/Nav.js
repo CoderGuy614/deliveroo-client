@@ -6,7 +6,7 @@ class Nav extends React.Component {
 
   find = e => {
     let a = this.props.restaurants.filter(el =>
-      el.name.includes(e.target.value)
+      el.name.toUpperCase().includes(e.target.value.toUpperCase())
     );
 
     this.props.cb(a);
