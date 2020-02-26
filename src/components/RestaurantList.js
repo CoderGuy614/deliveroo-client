@@ -32,7 +32,7 @@ class RestaurantList extends React.Component {
         />
         <div id="page">
           {this.state.restaurants.map(e => {
-            return <RestaurantCard restaurant={e} />;
+            return <RestaurantCard key={e._id} restaurant={e} />;
           })}
         </div>
       </>

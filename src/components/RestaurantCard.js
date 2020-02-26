@@ -16,7 +16,11 @@ class RestaurantCard extends React.Component {
           <>
             <ul className="categories">
               {restaurant.categories.map((e, i) => {
-                return <li style={{ background: `${e.color}` }}>{e.name}</li>;
+                return (
+                  <li key={i} style={{ background: `${e.color}` }}>
+                    {e.name}
+                  </li>
+                );
               })}
             </ul>
 

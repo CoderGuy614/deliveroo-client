@@ -1,8 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 class Nav extends React.Component {
-  state = {};
+  state = {
+    categories: [],
+    filteredCategories: []
+  };
 
   find = e => {
     let a = this.props.restaurants.filter(el =>
@@ -15,6 +19,42 @@ class Nav extends React.Component {
     //display only the cards with that
   };
 
+  componentWillMount() {
+    axios
+      .get("https://deliveroo-26feb.herokuapp.com/categories")
+      .then(dat =>
+        this.setState({
+          categories: dat.data
+        })
+      )
+      .catch(err => console.log(err));
+  }
+  filterCategory = name => {
+    let cpy = this.state.filteredCategories;
+    if (!this.state.filteredCategories.find(e => e == name)) {
+      cpy.push(name);
+    } else {
+      cpy = cpy.filter(e => e != name);
+    }
+    this.setState({ filteredCategories: cpy }, () => {
+      console.log(this.state.filteredCategories);
+
+      if (this.state.filteredCategories.length == 0) {
+        this.props.cb(this.props.restaurants);
+        return;
+      }
+      let a = this.props.restaurants.filter(el => {
+        for (let i = 0; i < el.categories.length; i++) {
+          for (let j = 0; j < this.state.filteredCategories.length; j++) {
+            if (el.categories[i].name == this.state.filteredCategories[j]) {
+              return true;
+            }
+          }
+        }
+      });
+      this.props.cb(a);
+    });
+  };
   render() {
     return (
       <nav>
@@ -25,52 +65,31 @@ class Nav extends React.Component {
           />
         </Link>
         <ul>
-          <li>
-            <Link
-              className="categoryTag"
-              to="/restaurants/category/Italian"
-              style={{ borderColor: "#DD3C3E" }}
-            >
-              <span style={{ color: "#DD3C3E" }}>Italian</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="categoryTag"
-              to="/"
-              style={{ borderColor: "#3A3335" }}
-            >
-              <span style={{ color: "#3A3335" }}>Burger</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="categoryTag"
-              to="/"
-              style={{ borderColor: "#40C9A2" }}
-            >
-              <span style={{ color: "#40C9A2" }}>Vegetarian</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="categoryTag"
-              to="/"
-              style={{ borderColor: "#F2B430" }}
-            >
-              <span style={{ color: "#F2B430" }}>Breakfast</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="categoryTag"
-              to="/"
-              style={{ borderColor: "#590348" }}
-            >
-              <span style={{ color: "#590348" }}>Japanese</span>
-            </Link>
-          </li>
+          {this.state.categories.map((e, i) => {
+            let realcolor = this.state.filteredCategories.find(x => x == e.name)
+              ? "black"
+              : e.color;
+            return (
+              <li key={i}>
+                <a
+                  key={i}
+                  className="categoryTag"
+                  onClick={() => this.filterCategory(e.name)}
+                  style={{ borderColor: `${e.color}` }}
+                >
+                  <span
+                    style={{
+                      color: realcolor
+                    }}
+                  >
+                    {e.name}
+                  </span>
+                </a>
+              </li>
+            );
+          })}
         </ul>
+
         {this.props.showFilters ? (
           <>
             <select>
