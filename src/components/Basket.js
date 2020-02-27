@@ -3,20 +3,18 @@ import { Link } from "react-router-dom";
 
 class Basket extends React.Component {
   state = {
-    basketItems: {
-      items: []
-    }
+    basketItems: []
   };
 
   componentWillReceiveProps(props) {
     this.setState({
-      basketItems: props
+      basketItems: props.items
     });
   }
 
   calcTotalPrice() {
     let price = 0;
-    let items = this.state.basketItems.items;
+    let items = this.state.basketItems;
     items.forEach(e => {
       price += e.price;
     });
@@ -25,7 +23,7 @@ class Basket extends React.Component {
 
   removeItem(i) {
     let basketItems = this.state.basketItems;
-    delete basketItems.items[i];
+    delete basketItems[i];
     this.setState({
       basketItems
     });
@@ -36,7 +34,7 @@ class Basket extends React.Component {
       <div id="basket">
         <h2>Your Basket</h2>
         <ul>
-          {this.state.basketItems.items.map((item, i) => {
+          {this.state.basketItems.map((item, i) => {
             return (
               <li>
                 <i className="fas fa-minus" onClick={e => this.removeItem(i)} />
