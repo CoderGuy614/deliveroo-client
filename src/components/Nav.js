@@ -86,22 +86,23 @@ class Nav extends React.Component {
             style={{ backgroundImage: 'url("https://bit.ly/2S2G7JA")' }}
           />
         </Link>
-        <ul>
+        <ul className={this.props.showFilters ? "" : "hidden"}>
           {this.state.categories.map((e, i) => {
-            let realcolor = this.state.filteredCategories.find(x => x == e.name)
-              ? "black"
-              : e.color;
+            let categoryClass = this.state.filteredCategories.find(
+              x => x == e.name
+            )
+              ? "categoryTag selected"
+              : "categoryTag";
             return (
               <li key={i}>
                 <a
                   key={i}
-                  className="categoryTag"
+                  className={categoryClass}
                   onClick={() => this.filterCategory(e.name)}
-                  style={{ borderColor: `${e.color}` }}
                 >
                   <span
                     style={{
-                      color: realcolor
+                      color: e.color
                     }}
                   >
                     {e.name}
@@ -112,19 +113,21 @@ class Nav extends React.Component {
           })}
         </ul>
 
-        {this.props.showFilters ? (
-          <>
-            <select onChange={this.sortBy}>
-              <option value="all">Sort by:</option>
-              <option value="price">Price</option>
-              <option value="delivery">Delivery Time</option>
-              <option value="likes">Likes</option>
-            </select>
-            <input type="text" placeholder="Search..." onChange={this.find} />
-          </>
-        ) : (
-          ""
-        )}
+        <select
+          onChange={this.sortBy}
+          className={this.props.showFilters ? "" : "hidden"}
+        >
+          <option value="all">Sort by:</option>
+          <option value="price">Price</option>
+          <option value="delivery">Delivery Time</option>
+          <option value="likes">Likes</option>
+        </select>
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={this.find}
+          className={this.props.showFilters ? "" : "hidden"}
+        />
       </nav>
     );
   }
