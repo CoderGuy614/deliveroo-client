@@ -13,13 +13,11 @@ class Nav extends React.Component {
       el.name.toUpperCase().includes(e.target.value.toUpperCase())
     );
     this.props.cb(a);
-    console.log(a, this.props.restaurants);
-    //display only the cards with that
   };
 
   componentWillMount() {
     axios
-      .get("https://deliveroo-26feb.herokuapp.com/categories")
+      .get(`${process.env.REACT_APP_API}/categories`)
       .then(dat =>
         this.setState({
           categories: dat.data
@@ -35,8 +33,6 @@ class Nav extends React.Component {
       cpy = cpy.filter(e => e != name);
     }
     this.setState({ filteredCategories: cpy }, () => {
-      console.log(this.state.filteredCategories);
-
       if (this.state.filteredCategories.length == 0) {
         this.props.cb(this.props.restaurants);
         return;
@@ -60,7 +56,6 @@ class Nav extends React.Component {
       let sort = originalSort.sort((a, b) => {
         return a.avg - b.avg;
       });
-      console.log(sort, originalSort);
       this.props.cb(sort);
     } else if (sortBy === "delivery") {
       let sort = originalSort.sort((a, b) => {
