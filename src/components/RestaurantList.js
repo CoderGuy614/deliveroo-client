@@ -1,4 +1,5 @@
 import React from "react";
+import Loader from "./Loader.js";
 import Nav from "./Nav.js";
 import RestaurantCard from "./RestaurantCard.js";
 import { Link } from "react-router-dom";
@@ -6,6 +7,7 @@ import axios from "axios";
 
 class RestaurantList extends React.Component {
   state = {
+    loading: true,
     restaurants: [],
     allRestaurants: []
   };
@@ -15,9 +17,13 @@ class RestaurantList extends React.Component {
 
   componentWillMount() {
     axios
-      .get("https://deliveroo-26feb.herokuapp.com/restaurants")
+      .get(`${process.env.REACT_APP_API}/restaurants`)
       .then(dat =>
-        this.setState({ restaurants: dat.data, allRestaurants: dat.data })
+        this.setState({
+          restaurants: dat.data,
+          allRestaurants: dat.data,
+          loading: false
+        })
       )
       .catch(err => console.log(err));
   }
@@ -31,6 +37,7 @@ class RestaurantList extends React.Component {
           cb={this.filterRestaurant}
         />
         <div id="page">
+          <Loader loading={this.state.loading} />
           {this.state.restaurants.map(e => {
             return <RestaurantCard key={e._id} restaurant={e} />;
           })}
