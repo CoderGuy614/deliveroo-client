@@ -99,6 +99,7 @@ class Nav extends React.Component {
                   key={i}
                   className={categoryClass}
                   onClick={() => this.filterCategory(e.name)}
+                  style={{ borderColor: e.color }}
                 >
                   <span
                     style={{
