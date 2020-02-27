@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Loader from "./Loader.js";
 import Nav from "./Nav.js";
 import Basket from "./Basket.js";
 import RestaurantMenu from "./RestaurantMenu.js";
@@ -15,7 +16,8 @@ class Restaurant extends React.Component {
       avg: 0
     },
 
-    basketItems: []
+    basketItems: [],
+    loading: true
   };
 
   constructor(props) {
@@ -39,7 +41,8 @@ class Restaurant extends React.Component {
       )
       .then(res => {
         this.setState({
-          restaurant: res.data
+          restaurant: res.data,
+          loading: false
         });
       })
       .catch(err => {
@@ -89,6 +92,7 @@ class Restaurant extends React.Component {
               </span>
             </div>
           </div>
+          <Loader loading={this.state.loading} />
           <RestaurantMenu
             menu={this.state.restaurant.menu}
             addToBasket={this.addToBasket}
