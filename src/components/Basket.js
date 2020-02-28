@@ -39,7 +39,7 @@ class Basket extends React.Component {
               <li>
                 <i className="fas fa-minus" onClick={e => this.removeItem(i)} />
                 <span className="name">{item.name}</span>
-                <span className="price">{item.price}</span>
+                <span className="price">${item.price}</span>
               </li>
             );
           })}
