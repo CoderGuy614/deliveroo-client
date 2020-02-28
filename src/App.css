@@ -211,6 +211,7 @@ nav input {
 #menu li .price {
   float: right;
   text-align: right;
+  user-select: none;
 }
 
 #menu li i {
@@ -246,6 +247,19 @@ nav input {
   display: block;
   padding: 10px 0;
   border-bottom: 1px dashed #eee8e8;
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  user-select: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 100;
+  }
 }
 
 #basket li i {
