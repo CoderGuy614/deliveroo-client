@@ -38,8 +38,8 @@ class RestaurantList extends React.Component {
         />
         <div id="page">
           <Loader loading={this.state.loading} />
-          {this.state.restaurants.map(e => {
-            return <RestaurantCard key={e._id} restaurant={e} />;
+          {this.state.restaurants.map((e, index) => {
+            return <RestaurantCard key={index} restaurant={e} />;
           })}
         </div>
       </>
